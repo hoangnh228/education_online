@@ -6,7 +6,7 @@
     <div class="container mt-4">
         <h1 class="mb-4">Shopping Cart</h1>
         <div class="row">
-            <!-- Danh Sách Khóa Học -->
+            <!-- Course List -->
             <div class="col-md-9">
                 @for ($i = 0; $i < 5; $i++)
                     <div class="card mb-3">
@@ -42,7 +42,7 @@
                     </ul>
                 </nav> --}}
             </div>
-            <!-- Tổng Giá Tiền -->
+            <!-- Total Price -->
             <div class="col-md-3">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -64,7 +64,7 @@
             </div>
         </div>
 
-        <!-- Gợi Ý Khóa Học -->
+        <!-- Course Suggestions -->
         <div class="row mt-4">
             <h4>You might also like</h4>
             <div id="courseCarousel" class="carousel slide" data-bs-ride="carousel">

@@ -13,7 +13,6 @@
                 <select class="form-select" id="course" name="course" required>
                     <option value="Course 1" {{ $video['course'] == 'Course 1' ? 'selected' : '' }}>Course 1</option>
                     <option value="Course 2" {{ $video['course'] == 'Course 2' ? 'selected' : '' }}>Course 2</option>
-                    <!-- Add more options as needed -->
                 </select>
             </div>
             <div class="mb-3">

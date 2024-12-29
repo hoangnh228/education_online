@@ -6,7 +6,7 @@
     <div class="container mt-4">
         <h1 class="mb-4">Checkout</h1>
         <div class="row">
-            <!-- Thông Tin Thanh Toán -->
+            <!-- Payment Information -->
             <div class="col-md-8">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Tóm Tắt Đơn Hàng -->
+            <!-- Order Summary -->
             <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="card-body">

@@ -12,7 +12,6 @@
                 <select class="form-select" id="course" name="course" required>
                     <option value="Course 1">Course 1</option>
                     <option value="Course 2">Course 2</option>
-                    <!-- Add more options as needed -->
                 </select>
             </div>
             <div class="mb-3">
