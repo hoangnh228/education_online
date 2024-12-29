@@ -132,8 +132,71 @@ Route::get('/admin/courses/{id}/edit', function ($id) {
     ]]);
 })->name('admin.courses.edit');
 
+// Route cho Cập Nhật Khóa Học Admin
+Route::put('/admin/courses/{id}', function ($id) {
+    // Logic cập nhật khóa học sẽ ở đây... 
+    return redirect()->route('admin.courses');
+})->name('admin.courses.update');
+
 // Route cho Xóa Khóa Học Admin
 Route::delete('/admin/courses/{id}', function ($id) {
     // Logic xóa khóa học sẽ ở đây... 
     return redirect()->route('admin.courses');
 })->name('admin.courses.destroy');
+
+// Route cho Trang Tạo Video Mới Admin
+Route::get('/admin/videos/create', function () {
+    return view('admin.create-video');
+})->name('admin.videos.create');
+
+// Route cho Lưu Video Mới Admin
+Route::post('/admin/videos', function () {
+    // Logic lưu video mới sẽ ở đây... 
+    return redirect()->route('admin.videos');
+})->name('admin.videos.store');
+
+// Route cho Sửa Video Admin
+Route::get('/admin/videos/{id}/edit', function ($id) {
+    return view('admin.edit-video', ['video' => [
+        'id' => $id,
+        'course' => 'Course 1',
+        'name' => 'Video 1',
+        'teacher' => 'Teacher 1',
+        'description' => 'This is a description of Video 1.',
+        'duration' => '1 hour',
+        'url' => 'https://example.com/video1.mp4'
+    ]]);
+})->name('admin.videos.edit');
+
+// Route cho Cập Nhật Video Admin 
+Route::put('/admin/videos/{id}', function ($id) {
+    // Logic cập nhật video sẽ ở đây...
+    return redirect()->route('admin.videos');
+})->name('admin.videos.update');
+
+// Route cho Xóa Video Admin
+Route::delete('/admin/videos/{id}', function ($id) {
+    // Logic xóa video sẽ ở đây... 
+    return redirect()->route('admin.videos');
+})->name('admin.videos.destroy');
+
+// Route cho Trang Dashboard Giáo Viên
+Route::get('/teacher/dashboard', function () {
+    return view('teacher.dashboard');
+})->name('teacher.dashboard');
+
+// Route cho Trang Tạo Khóa Học Mới Cho Giáo Viên
+Route::get('/teacher/courses/create', function () {
+    return view('teacher.create-course');
+})->name('teacher.courses.create');
+
+// Route cho Lưu Khóa Học Mới Cho Giáo Viên 
+Route::post('/teacher/courses', function () {
+    // Logic lưu khóa học mới sẽ ở đây... 
+    return redirect()->route('teacher.courses');
+})->name('teacher.courses.store');
+
+// Route cho Trang Xem Chi Tiết Khóa Học Cho Giáo Viên
+Route::get('/teacher/courses/{id}', function ($id) {
+    return view('teacher.view-course');
+})->name('teacher.courses.view');
