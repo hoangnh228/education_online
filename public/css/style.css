@@ -1,0 +1,101 @@
+/* Custom CSS */
+body {
+    font-family: "Arial", sans-serif;
+}
+
+.header .logo img {
+    max-height: 50px;
+}
+
+.dropdown .dropdown-menu {
+    min-width: 200px;
+}
+
+.search-bar input {
+    width: 300px;
+}
+
+.card img {
+    max-height: 150px;
+    object-fit: cover;
+}
+
+.footer {
+    background-color: #f8f9fa;
+}
+
+.custom-hover-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.custom-hover-menu .menu-item {
+    position: relative;
+    text-align: center;
+}
+
+.custom-hover-menu .menu-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.custom-hover-menu .menu-title:hover {
+    color: blue;
+    /* Change color on hover */
+}
+
+.custom-hover-menu .menu-options {
+    display: none;
+    /* Hide default */
+    position: absolute;
+    top: 100%;
+    /* Appears right below the title */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Center */
+    background-color: #333;
+    /* Dark background */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    white-space: nowrap;
+    /* Keep all options on the same line */
+}
+
+.custom-hover-menu .menu-item:hover .menu-options {
+    display: flex;
+    /* Show on hover */
+    justify-content: center;
+    /* Center content */
+    gap: 15px;
+    /* Space between options */
+}
+
+.custom-hover-menu .menu-option {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-hover-menu .menu-option:hover {
+    background-color: blue;
+    color: white;
+}
+
+.card {
+    transition: max-width 0.3s;
+}
+
+.card-body {
+    font-size: 0.9rem;
+}
