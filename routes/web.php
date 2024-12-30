@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+
 
 // Route for Home Page
 Route::get('/home', function () {
@@ -51,15 +53,22 @@ Route::get('/my-learning', function () {
     return view('client.my-learning');
 })->name('my-learning');
 
-// Route for Admin Login Page
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name('admin.login');
 
-// Route for Admin Dashboard Page
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+
+
+
+
+// Route for Admin Login Page
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login']);
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+
+// Routes for Admin Dashboard 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
 
 // Route for Admin User Management Page
 Route::get('/admin/users', function () {

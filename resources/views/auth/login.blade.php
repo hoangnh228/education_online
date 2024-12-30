@@ -22,6 +22,11 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
+
+                @if (session('error'))
+                    <div>{{ session('error') }}</div>
+                @endif
+
                 <p class="mt-3">Don't have an account? <a href="{{ route('register') }}">Sign Up</a></p>
             </div>
         </div>
