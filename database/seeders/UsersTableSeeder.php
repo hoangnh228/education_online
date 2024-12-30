@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
             [
                 'fullname' => 'Admin User',
                 'username' => 'admin_user',
-                'password' => Hash::make('password'), // Mã hóa mật khẩu
+                'password' => Hash::make('password'),
                 'dob' => '1980-01-01',
                 'address' => 'Admin Address',
                 'phonenumber' => '1234567890',
@@ -28,7 +28,7 @@ class UsersTableSeeder extends Seeder
             [
                 'fullname' => 'Teacher User',
                 'username' => 'teacher_user',
-                'password' => Hash::make('password'), // Mã hóa mật khẩu
+                'password' => Hash::make('password'),
                 'dob' => '1985-05-15',
                 'address' => 'Teacher Address',
                 'phonenumber' => '0987654321',
@@ -41,7 +41,7 @@ class UsersTableSeeder extends Seeder
             [
                 'fullname' => 'Regular User',
                 'username' => 'regular_user',
-                'password' => Hash::make('password'), // Mã hóa mật khẩu
+                'password' => Hash::make('password'),
                 'dob' => '1990-10-10',
                 'address' => 'User Address',
                 'phonenumber' => '1122334455',
