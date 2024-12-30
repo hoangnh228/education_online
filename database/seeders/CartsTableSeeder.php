@@ -5,32 +5,26 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ReviewsTableSeeder extends Seeder
+class CartsTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('reviews')->insert([
+        DB::table('carts')->insert([
             [
                 'user_id' => 1,
-                'courses_id' => 1,
-                'rating' => 5,
-                'comment' => 'This course is amazing! I learned so much.',
+                'courses_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'user_id' => 2,
-                'courses_id' => 2,
-                'rating' => 4,
-                'comment' => 'Great course with in-depth content.',
+                'courses_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'user_id' => 3,
-                'courses_id' => 3,
-                'rating' => 3,
-                'comment' => 'Good course, but could use more examples.',
+                'courses_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

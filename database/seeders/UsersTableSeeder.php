@@ -1,24 +1,21 @@
 <?php
 
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
         DB::table('users')->insert([
             [
                 'fullname' => 'Admin User',
                 'username' => 'admin_user',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password'), // Mã hóa mật khẩu
                 'dob' => '1980-01-01',
                 'address' => 'Admin Address',
                 'phonenumber' => '1234567890',
@@ -31,7 +28,7 @@ class UsersTableSeeder extends Seeder
             [
                 'fullname' => 'Teacher User',
                 'username' => 'teacher_user',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password'), // Mã hóa mật khẩu
                 'dob' => '1985-05-15',
                 'address' => 'Teacher Address',
                 'phonenumber' => '0987654321',
@@ -44,7 +41,7 @@ class UsersTableSeeder extends Seeder
             [
                 'fullname' => 'Regular User',
                 'username' => 'regular_user',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('password'), // Mã hóa mật khẩu
                 'dob' => '1990-10-10',
                 'address' => 'User Address',
                 'phonenumber' => '1122334455',

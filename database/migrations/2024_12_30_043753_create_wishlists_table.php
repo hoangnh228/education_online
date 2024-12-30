@@ -9,14 +9,14 @@ class CreateWishlistsTable extends Migration
     public function up()
     {
         Schema::create('wishlists', function (Blueprint $table) {
-            $table->id('wishlist_id');
-            $table->unsignedBigInteger('user_id')->nullable(false);
-            $table->unsignedBigInteger('courses_id')->nullable(false);
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('courses_id');
             $table->timestamps();
 
 
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
-            $table->foreign('courses_id')->references('courses_id')->on('courses')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('courses_id')->references('id')->on('courses')->onDelete('cascade');
         });
     }
 
