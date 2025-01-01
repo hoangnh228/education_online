@@ -12,7 +12,7 @@ class CourseFactory extends Factory
     {
         return [
             'course_name' => $this->faker->sentence(),
-            'teacher_id' => \App\Models\User::where('role', 'teacher')->inRandomOrder()->first()->id,
+            'teacher_id' => \App\Models\User::factory()->state(['role' => 'teacher']),
             'price' => $this->faker->randomFloat(2, 100, 1000),
             'description' => $this->faker->paragraph(),
             'duration' => $this->faker->numberBetween(10, 100),

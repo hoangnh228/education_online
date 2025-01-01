@@ -9,6 +9,6 @@ class CartSeeder extends Seeder
 {
     public function run()
     {
-        Cart::factory()->count(30)->create(); // Tạo 30 cart giả lập
+        Cart::factory()->count(10)->create();
     }
 }

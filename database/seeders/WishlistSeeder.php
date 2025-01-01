@@ -9,6 +9,6 @@ class WishlistSeeder extends Seeder
 {
     public function run()
     {
-        Wishlist::factory()->count(50)->create();
+        Wishlist::factory()->count(10)->create();
     }
 }

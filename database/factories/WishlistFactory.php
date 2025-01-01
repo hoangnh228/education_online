@@ -11,8 +11,8 @@ class WishlistFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => \App\Models\User::inRandomOrder()->first()->id,
-            'course_id' => \App\Models\Course::inRandomOrder()->first()->id,
+            'user_id' => \App\Models\User::factory(),
+            'course_id' => \App\Models\Course::factory(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
