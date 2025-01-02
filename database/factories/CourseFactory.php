@@ -10,12 +10,15 @@ class CourseFactory extends Factory
 
     public function definition()
     {
+        $statuses = ['active', 'inactive', 'pending'];
+
         return [
             'course_name' => $this->faker->sentence(),
             'teacher_id' => \App\Models\User::factory()->state(['role' => 'teacher']),
             'price' => $this->faker->randomFloat(2, 100, 1000),
             'description' => $this->faker->paragraph(),
             'duration' => $this->faker->numberBetween(10, 100),
+            'status' => $this->faker->randomElement($statuses),
             'created_at' => now(),
             'updated_at' => now(),
         ];

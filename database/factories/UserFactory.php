@@ -12,6 +12,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $roles = ['user', 'admin', 'teacher'];
+        $statuses = ['active', 'inactive', 'pending'];
 
         return [
             'full_name' => $this->faker->name(),
@@ -23,6 +24,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'role' => $this->faker->randomElement($roles),
             'image' => $this->faker->imageUrl(),
+            'status' => $this->faker->randomElement($statuses),
             'created_at' => now(),
             'updated_at' => now(),
         ];

@@ -10,6 +10,8 @@ class VideoFactory extends Factory
 
     public function definition()
     {
+        $statuses = ['active', 'inactive', 'pending'];
+
         return [
             'video_name' => $this->faker->sentence(),
             'course_id' => \App\Models\Course::factory(),
@@ -17,6 +19,7 @@ class VideoFactory extends Factory
             'description' => $this->faker->paragraph(),
             'duration' => $this->faker->numberBetween(5, 120),
             'url' => $this->faker->url(),
+            'status' => $this->faker->randomElement($statuses),
             'created_at' => now(),
             'updated_at' => now(),
         ];
