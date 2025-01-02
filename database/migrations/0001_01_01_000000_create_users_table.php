@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('role');
             $table->string('image')->nullable();
-            $table->string('status')->default('active');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

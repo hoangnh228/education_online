@@ -12,7 +12,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $roles = ['user', 'admin', 'teacher'];
-        $statuses = ['active', 'inactive', 'pending'];
+        $statuses = [0, 1, 2]; // 0 - inactive, 1 - active, 2 - pending
 
         return [
             'full_name' => $this->faker->name(),

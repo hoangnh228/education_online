@@ -10,7 +10,7 @@ class VideoFactory extends Factory
 
     public function definition()
     {
-        $statuses = ['active', 'inactive', 'pending'];
+        $statuses = [0, 1, 2]; // 0 - inactive, 1 - active, 2 - pending
 
         return [
             'video_name' => $this->faker->sentence(),

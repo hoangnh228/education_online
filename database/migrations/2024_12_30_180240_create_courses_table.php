@@ -15,7 +15,7 @@ class CreateCoursesTable extends Migration
             $table->float('price');
             $table->text('description');
             $table->integer('duration');
-            $table->string('status')->default('active');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

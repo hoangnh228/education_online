@@ -16,7 +16,7 @@ class CreateVideosTable extends Migration
             $table->text('description');
             $table->integer('duration');
             $table->string('url');
-            $table->string('status')->default('active');
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
