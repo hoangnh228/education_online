@@ -15,7 +15,8 @@ class Video extends Model
         'teacher_id',
         'description',
         'duration',
-        'url'
+        'url',
+        'status',
     ];
 
     public function course()

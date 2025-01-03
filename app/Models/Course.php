@@ -14,6 +14,7 @@ class Course extends Model
         'teacher_id',
         'price',
         'description',
+        'status',
         'duration'
     ];
 
