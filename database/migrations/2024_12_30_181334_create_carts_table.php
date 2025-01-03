@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
-            $table->decimal('price', 8, 2);
+            $table->decimal('price', 8, 2); // price of the course at the time of adding to cart
             $table->timestamps();
         });
     }

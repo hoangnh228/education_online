@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('duration');
             $table->string('url');
-            $table->boolean('status')->default(true);
+            $table->boolean('status')->default(true); // 0 1 2
             $table->timestamps();
         });
     }
