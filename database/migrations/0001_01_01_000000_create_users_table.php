@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone_number');
             $table->string('email')->unique();
-            $table->string('role'); // 0 1 2
+            $table->string('role');
             $table->string('image')->nullable();
-            $table->boolean('status')->default(true); // 0 1 2
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
 

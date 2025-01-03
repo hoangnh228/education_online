@@ -15,7 +15,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2);
             $table->text('description');
             $table->integer('duration');
-            $table->boolean('status')->default(true); // 0 1 2
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
