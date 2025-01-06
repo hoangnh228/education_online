@@ -56,4 +56,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Video::class, 'teacher_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }

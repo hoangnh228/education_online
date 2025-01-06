@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
+
 
 // Route for Home Page
 Route::get('/home', function () {
@@ -51,15 +54,26 @@ Route::get('/my-learning', function () {
     return view('client.my-learning');
 })->name('my-learning');
 
-// Route for Admin Login Page
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name('admin.login');
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Route::get('login', function () {
+    //     dd('Login route accessed');
+    // });
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Các route yêu cầu quyền admin
+    Route::middleware([AdminMiddleware::class])->group(function () {
+        Route::get('dashboard', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
+    });
+});
 
 // Route for Admin Dashboard Page
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+// Route::get('/admin/dashboard', function () {
+//     return view('admin.dashboard');
+// })->name('admin.dashboard');
 
 // Route for Admin User Management Page
 Route::get('/admin/users', function () {
@@ -89,17 +103,19 @@ Route::post('/admin/users', function () {
 
 // Route for Admin Edit User Page
 Route::get('/admin/users/{id}/edit', function ($id) {
-    return view('admin.edit-user', ['user' => [
-        'id' => $id,
-        'full_name' => 'John Doe',
-        'user_name' => 'john_doe',
-        'dob' => '1990-01-01',
-        'address' => '123 Main St, City, Country',
-        'phone_number' => '123-456-7890',
-        'email' => 'john@example.com',
-        'role' => 'Admin',
-        'image' => 'https://via.placeholder.com/50'
-    ]]);
+    return view('admin.edit-user', [
+        'user' => [
+            'id' => $id,
+            'full_name' => 'John Doe',
+            'user_name' => 'john_doe',
+            'dob' => '1990-01-01',
+            'address' => '123 Main St, City, Country',
+            'phone_number' => '123-456-7890',
+            'email' => 'john@example.com',
+            'role' => 'Admin',
+            'image' => 'https://via.placeholder.com/50'
+        ]
+    ]);
 })->name('admin.users.edit');
 
 // Route for Admin Delete User 
@@ -121,15 +137,17 @@ Route::post('/admin/courses', function () {
 
 // Route for Admin Edit Course Page 
 Route::get('/admin/courses/{id}/edit', function ($id) {
-    return view('admin.edit-course', ['course' => [
-        'id' => $id,
-        'title' => 'Course 1',
-        'teacher' => 'Teacher 1',
-        'description' => 'This is a description of Course 1.',
-        'duration' => '10 hours',
-        'created_at' => '2024-01-01',
-        'updated_at' => '2024-01-02'
-    ]]);
+    return view('admin.edit-course', [
+        'course' => [
+            'id' => $id,
+            'title' => 'Course 1',
+            'teacher' => 'Teacher 1',
+            'description' => 'This is a description of Course 1.',
+            'duration' => '10 hours',
+            'created_at' => '2024-01-01',
+            'updated_at' => '2024-01-02'
+        ]
+    ]);
 })->name('admin.courses.edit');
 
 // Route for Admin Update Course
@@ -157,15 +175,17 @@ Route::post('/admin/videos', function () {
 
 // Route for Admin Edit Video Page
 Route::get('/admin/videos/{id}/edit', function ($id) {
-    return view('admin.edit-video', ['video' => [
-        'id' => $id,
-        'course' => 'Course 1',
-        'name' => 'Video 1',
-        'teacher' => 'Teacher 1',
-        'description' => 'This is a description of Video 1.',
-        'duration' => '1 hour',
-        'url' => 'https://example.com/video1.mp4'
-    ]]);
+    return view('admin.edit-video', [
+        'video' => [
+            'id' => $id,
+            'course' => 'Course 1',
+            'name' => 'Video 1',
+            'teacher' => 'Teacher 1',
+            'description' => 'This is a description of Video 1.',
+            'duration' => '1 hour',
+            'url' => 'https://example.com/video1.mp4'
+        ]
+    ]);
 })->name('admin.videos.edit');
 
 // Route for Admin Update Video 

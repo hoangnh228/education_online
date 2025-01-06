@@ -17,12 +17,23 @@
                     <div class="card-header text-center">
                         <h3>Admin Login</h3>
                     </div>
+
+                    @if ($errors->any())
+                        <div>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="card-body">
                         <form action="{{ route('admin.login') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                                <label for="user_name" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="user_name" name="user_name" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
