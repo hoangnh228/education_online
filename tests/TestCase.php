@@ -1,5 +1,10 @@
 <?php
 
-test('that true is true', function () {
-    expect(true)->toBeTrue();
-});
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    //
+}
