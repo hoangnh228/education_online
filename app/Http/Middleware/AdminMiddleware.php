@@ -16,8 +16,17 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
-            return $next($request);
+        if (Auth::check()) {
+            $user = Auth::user();
+            if ($user->role === 'admin' && $user->status === 1) {
+                return $next($request);
+            }
+
+            if ($user->role === 'admin' && $user->status !== 1) {
+                return redirect()->route('admin.login')->withErrors([
+                    'error' => 'Your account is not active. Please contact support.'
+                ]);
+            }
         }
 
         return redirect()->route('admin.login')->withErrors(['error' => 'Access denied.']);

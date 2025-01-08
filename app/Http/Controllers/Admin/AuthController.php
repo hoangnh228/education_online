@@ -15,9 +15,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // check data
-        // dd($request->all());
-
         $request->validate([
             'user_name' => 'required|string',
             'password' => 'required|string|min:6',
@@ -25,8 +22,18 @@ class AuthController extends Controller
 
         if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password])) {
             $user = Auth::user();
+
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard');
+                if ($user->status === 1) {
+                    return redirect()->route('admin.dashboard');
+                } else {
+                    Auth::logout();
+                    $statusMessages = [
+                        0 => 'Your account is inactive. Please contact support.',
+                        2 => 'Your account is pending approval. Please wait for activation.',
+                    ];
+                    return redirect()->back()->withErrors(['error' => $statusMessages[$user->status] ?? 'Invalid account status.']);
+                }
             }
 
             Auth::logout();
@@ -35,8 +42,6 @@ class AuthController extends Controller
 
         return redirect()->back()->withErrors(['error' => 'Invalid credentials.']);
     }
-
-
 
     public function logout()
     {

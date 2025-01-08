@@ -61,34 +61,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Các route yêu cầu quyền admin
+    // Route default for /admin
     Route::middleware([AdminMiddleware::class])->group(function () {
-        Route::get('dashboard', function () {
+        Route::get('/', function () {
             return view('admin.dashboard');
         })->name('dashboard');
+
+        Route::get('courses', function () {
+            return view('admin.courses');
+        })->name('courses');
+
+        Route::get('users', function () {
+            return view('admin.users');
+        })->name('users');
+
+        Route::get('videos', function () {
+            return view('admin.videos');
+        })->name('videos');
     });
 });
 
-
-// Route for Admin Dashboard Page
-// Route::get('/admin/dashboard', function () {
-//     return view('admin.dashboard');
-// })->name('admin.dashboard');
-
-// Route for Admin User Management Page
-Route::get('/admin/users', function () {
-    return view('admin.users');
-})->name('admin.users');
-
-// Route for Admin Course Management Page 
-Route::get('/admin/courses', function () {
-    return view('admin.courses');
-})->name('admin.courses');
-
-// Route for Admin Video Management Page
-Route::get('/admin/videos', function () {
-    return view('admin.videos');
-})->name('admin.videos');
 
 // Route for Admin Create User Page
 Route::get('/admin/users/create', function () {
