@@ -54,10 +54,9 @@ Route::get('/my-learning', function () {
     return view('client.my-learning');
 })->name('my-learning');
 
+// Admin group routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Route::get('login', function () {
-    //     dd('Login route accessed');
-    // });
+    // Route login
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -69,6 +68,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('dashboard');
     });
 });
+
 
 // Route for Admin Dashboard Page
 // Route::get('/admin/dashboard', function () {
