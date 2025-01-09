@@ -57,8 +57,8 @@ class User extends Authenticatable
         return $this->hasMany(Video::class, 'teacher_id');
     }
 
-    public function isAdmin()
+    public function getIsAdminAttribute(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === 'admin' && $this->status === 1;
     }
 }

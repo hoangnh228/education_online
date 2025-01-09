@@ -23,21 +23,18 @@ class AuthController extends Controller
         if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password])) {
             $user = Auth::user();
 
-            if ($user->role === 'admin') {
-                if ($user->status === 1) {
-                    return redirect()->route('admin.dashboard');
-                } else {
-                    Auth::logout();
-                    $statusMessages = [
-                        0 => 'Your account is inactive. Please contact support.',
-                        2 => 'Your account is pending approval. Please wait for activation.',
-                    ];
-                    return redirect()->back()->withErrors(['error' => $statusMessages[$user->status] ?? 'Invalid account status.']);
-                }
+            // Sử dụng is_admin
+            if ($user->is_admin) {
+                return redirect()->route('admin.dashboard');
             }
 
             Auth::logout();
-            return redirect()->back()->withErrors(['error' => 'You do not have admin access.']);
+
+            $statusMessages = [
+                0 => 'Your account is inactive. Please contact support.',
+                2 => 'Your account is pending approval. Please wait for activation.',
+            ];
+            return redirect()->back()->withErrors(['error' => $statusMessages[$user->status] ?? 'Invalid account status.']);
         }
 
         return redirect()->back()->withErrors(['error' => 'Invalid credentials.']);
