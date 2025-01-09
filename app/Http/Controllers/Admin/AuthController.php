@@ -23,7 +23,6 @@ class AuthController extends Controller
         if (Auth::attempt(['user_name' => $request->user_name, 'password' => $request->password])) {
             $user = Auth::user();
 
-            // Sử dụng is_admin
             if ($user->is_admin) {
                 return redirect()->route('admin.dashboard');
             }
