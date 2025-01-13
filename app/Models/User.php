@@ -65,4 +65,11 @@ class User extends Authenticatable
             get: fn() => $this->role === 'admin' && $this->status === 1
         );
     }
+
+    protected function isUser(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->role === 'user' && $this->status === 1,
+        );
+    }
 }

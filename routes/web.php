@@ -3,21 +3,19 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\AuthController as UserAuthController;
 
+// Route cho user login
+Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [UserAuthController::class, 'login'])->name('login.submit');
 
-// Route for Home Page
+// Route cho home page (sau khi user login)
 Route::get('/home', function () {
     return view('client.home');
-})->name('home');
+})->name('home')->middleware('auth');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route for Login Page
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// Route cho logout
+Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
 // Route for Register Page
 Route::get('/register', function () {
