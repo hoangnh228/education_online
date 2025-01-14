@@ -15,7 +15,8 @@ class Course extends Model
         'price',
         'description',
         'status',
-        'duration'
+        'duration',
+        'category_id',
     ];
 
     public function teacher()
@@ -26,5 +27,10 @@ class Course extends Model
     public function videos()
     {
         return $this->hasMany(Video::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
