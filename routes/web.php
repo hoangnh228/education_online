@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController as UserAuthController;
@@ -69,9 +70,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.courses');
         })->name('courses');
 
-        Route::get('users', function () {
-            return view('admin.users');
-        })->name('users');
+        Route::get('users', [UserController::class, 'index'])->name('users');
 
         Route::get('videos', function () {
             return view('admin.videos');

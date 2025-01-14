@@ -72,4 +72,9 @@ class User extends Authenticatable
             get: fn() => $this->role === 'user' && $this->status === 1,
         );
     }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/images/' . $this->image) : 'https://via.placeholder.com/50';
+    }
 }
