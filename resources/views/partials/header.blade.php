@@ -1,63 +1,38 @@
-<header class="bg-light p-3">
+<header class="bg-light py-3 shadow-sm">
     <div class="container d-flex justify-content-between align-items-center">
+        <!-- Logo Section -->
         <div class="logo">
-            <a href="{{ route('home') }}"><img src="path/to/logo.png" alt="Logo" height="40"></a>
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('path/to/logo.png') }}" alt="Logo" height="40">
+            </a>
         </div>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="exploreDropdown"
-                data-bs-toggle="dropdown" aria-expanded="false">
-                Explore
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="exploreDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+
+        <!-- Search Bar -->
+        <div class="search-bar flex-grow-1 mx-4">
+            <input type="text" class="form-control" placeholder="Search courses..." aria-label="Search">
         </div>
-        <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search courses...">
-        </div>
+
+        <!-- Icons and Actions -->
         <div class="icons d-flex align-items-center">
-            <a href="#" class="me-3"><i class="bi bi-cart"></i></a>
-            @if (auth()->check())
-                <a href="#" class="me-3"><i class="bi bi-heart"></i></a>
-                <a href="#" class="me-3"><i class="bi bi-bell"></i></a>
-                <a href="#" class="me-3"><img src="path/to/avatar.jpg" alt="Avatar" class="rounded-circle"
-                        height="40"></a>
-                <div class="accordion" id="userAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Become a Teacher
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                            data-bs-parent="#userAccordion">
-                            <div class="accordion-body">
-                                Content for becoming a teacher.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                My Learning
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                            data-bs-parent="#userAccordion">
-                            <div class="accordion-body">
-                                Content for my learning.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            @auth
+                <a href="#" class="me-3 text-secondary" title="Cart">
+                    <i class="bi bi-cart fs-4"></i>
+                </a>
+                <a href="#" class="me-3 text-secondary" title="Wishlist">
+                    <i class="bi bi-heart fs-4"></i>
+                </a>
+                <a href="#" class="me-3 text-secondary" title="Notifications">
+                    <i class="bi bi-bell fs-4"></i>
+                </a>
+                <a href="#" class="me-3" title="Profile">
+                    <img src="{{ asset('path/to/avatar.jpg') }}" alt="Avatar" class="rounded-circle border"
+                        height="40" width="40">
+                </a>
+                <a href="{{ route('logout') }}" class="btn btn-danger btn-sm">Logout</a>
             @else
-                <a href="{{ route('login') }}" class="btn btn-primary me-2">Login</a>
-                <a href="{{ route('register') }}" class="btn btn-secondary">Sign Up</a>
-            @endif
+                <a href="{{ route('login') }}" class="btn btn-primary btn-sm me-2">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-secondary btn-sm">Sign Up</a>
+            @endauth
         </div>
     </div>
 </header>

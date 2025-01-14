@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 class User extends Authenticatable
 {
@@ -55,5 +57,19 @@ class User extends Authenticatable
     public function videos()
     {
         return $this->hasMany(Video::class, 'teacher_id');
+    }
+
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->role === 'admin' && $this->status === 1
+        );
+    }
+
+    protected function isUser(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->role === 'user' && $this->status === 1,
+        );
     }
 }

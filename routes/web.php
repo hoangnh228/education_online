@@ -1,20 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\AuthController as UserAuthController;
 
-// Route for Home Page
+// Route cho user login
+Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [UserAuthController::class, 'login'])->name('login.submit');
+
+// Route cho home page (sau khi user login)
 Route::get('/home', function () {
     return view('client.home');
-})->name('home');
+})->name('home')->middleware('auth');
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route for Login Page
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+// Route cho logout
+Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
 // Route for Register Page
 Route::get('/register', function () {
@@ -51,30 +52,33 @@ Route::get('/my-learning', function () {
     return view('client.my-learning');
 })->name('my-learning');
 
-// Route for Admin Login Page
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name('admin.login');
+// Admin group routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Route login
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Route for Admin Dashboard Page
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
+    // Route default for /admin
+    Route::middleware([AdminMiddleware::class])->group(function () {
+        Route::get('/', function () {
+            return view('admin.dashboard');
+        })->name('dashboard');
 
-// Route for Admin User Management Page
-Route::get('/admin/users', function () {
-    return view('admin.users');
-})->name('admin.users');
+        Route::get('courses', function () {
+            return view('admin.courses');
+        })->name('courses');
 
-// Route for Admin Course Management Page 
-Route::get('/admin/courses', function () {
-    return view('admin.courses');
-})->name('admin.courses');
+        Route::get('users', function () {
+            return view('admin.users');
+        })->name('users');
 
-// Route for Admin Video Management Page
-Route::get('/admin/videos', function () {
-    return view('admin.videos');
-})->name('admin.videos');
+        Route::get('videos', function () {
+            return view('admin.videos');
+        })->name('videos');
+    });
+});
+
 
 // Route for Admin Create User Page
 Route::get('/admin/users/create', function () {
@@ -89,17 +93,19 @@ Route::post('/admin/users', function () {
 
 // Route for Admin Edit User Page
 Route::get('/admin/users/{id}/edit', function ($id) {
-    return view('admin.edit-user', ['user' => [
-        'id' => $id,
-        'full_name' => 'John Doe',
-        'user_name' => 'john_doe',
-        'dob' => '1990-01-01',
-        'address' => '123 Main St, City, Country',
-        'phone_number' => '123-456-7890',
-        'email' => 'john@example.com',
-        'role' => 'Admin',
-        'image' => 'https://via.placeholder.com/50'
-    ]]);
+    return view('admin.edit-user', [
+        'user' => [
+            'id' => $id,
+            'full_name' => 'John Doe',
+            'user_name' => 'john_doe',
+            'dob' => '1990-01-01',
+            'address' => '123 Main St, City, Country',
+            'phone_number' => '123-456-7890',
+            'email' => 'john@example.com',
+            'role' => 'Admin',
+            'image' => 'https://via.placeholder.com/50'
+        ]
+    ]);
 })->name('admin.users.edit');
 
 // Route for Admin Delete User 
@@ -121,15 +127,17 @@ Route::post('/admin/courses', function () {
 
 // Route for Admin Edit Course Page 
 Route::get('/admin/courses/{id}/edit', function ($id) {
-    return view('admin.edit-course', ['course' => [
-        'id' => $id,
-        'title' => 'Course 1',
-        'teacher' => 'Teacher 1',
-        'description' => 'This is a description of Course 1.',
-        'duration' => '10 hours',
-        'created_at' => '2024-01-01',
-        'updated_at' => '2024-01-02'
-    ]]);
+    return view('admin.edit-course', [
+        'course' => [
+            'id' => $id,
+            'title' => 'Course 1',
+            'teacher' => 'Teacher 1',
+            'description' => 'This is a description of Course 1.',
+            'duration' => '10 hours',
+            'created_at' => '2024-01-01',
+            'updated_at' => '2024-01-02'
+        ]
+    ]);
 })->name('admin.courses.edit');
 
 // Route for Admin Update Course
@@ -157,15 +165,17 @@ Route::post('/admin/videos', function () {
 
 // Route for Admin Edit Video Page
 Route::get('/admin/videos/{id}/edit', function ($id) {
-    return view('admin.edit-video', ['video' => [
-        'id' => $id,
-        'course' => 'Course 1',
-        'name' => 'Video 1',
-        'teacher' => 'Teacher 1',
-        'description' => 'This is a description of Video 1.',
-        'duration' => '1 hour',
-        'url' => 'https://example.com/video1.mp4'
-    ]]);
+    return view('admin.edit-video', [
+        'video' => [
+            'id' => $id,
+            'course' => 'Course 1',
+            'name' => 'Video 1',
+            'teacher' => 'Teacher 1',
+            'description' => 'This is a description of Video 1.',
+            'duration' => '1 hour',
+            'url' => 'https://example.com/video1.mp4'
+        ]
+    ]);
 })->name('admin.videos.edit');
 
 // Route for Admin Update Video 
