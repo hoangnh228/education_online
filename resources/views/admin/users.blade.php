@@ -8,6 +8,15 @@
             <h1>Manage Users</h1>
             <a href="{{ route('admin.users.create') }}" class="btn btn-primary">Add New User</a>
         </div>
+
+        <!-- Search Form -->
+        <form method="GET" action="{{ route('admin.users') }}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by full name" value="{{ request('search') }}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -44,7 +53,7 @@
                             <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to deactivate this user?')">Delete</button>
                             </form>
                         </td>
                     </tr>

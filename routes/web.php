@@ -79,39 +79,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 });
 
 
-// Route for Admin Create User Page
-Route::get('/admin/users/create', function () {
-    return view('admin.create-user');
-})->name('admin.users.create');
+Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
 
-// Route for Admin Save New User
-Route::post('/admin/users', function () {
-    // The logic to save the new user will go here...
-    return redirect()->route('admin.users');
-})->name('admin.users.store');
+Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
 
-// Route for Admin Edit User Page
-Route::get('/admin/users/{id}/edit', function ($id) {
-    return view('admin.edit-user', [
-        'user' => [
-            'id' => $id,
-            'full_name' => 'John Doe',
-            'user_name' => 'john_doe',
-            'dob' => '1990-01-01',
-            'address' => '123 Main St, City, Country',
-            'phone_number' => '123-456-7890',
-            'email' => 'john@example.com',
-            'role' => 'Admin',
-            'image' => 'https://via.placeholder.com/50'
-        ]
-    ]);
-})->name('admin.users.edit');
-
-// Route for Admin Delete User 
-Route::delete('/admin/users/{id}', function ($id) {
-    // Logic xóa người dùng sẽ ở đây... 
-    return redirect()->route('admin.users');
-})->name('admin.users.destroy');
+Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
 // Route for Admin Create New Course Page
 Route::get('/admin/courses/create', function () {
