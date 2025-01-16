@@ -34,6 +34,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected function setPasswordAttribute($password)
+    {
+        if ($password) {
+            $this->attributes['password'] = bcrypt($password);
+        }
+    }
+
     public function courses()
     {
         return $this->hasMany(Course::class, 'teacher_id');

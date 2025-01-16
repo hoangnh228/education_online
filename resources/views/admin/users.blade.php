@@ -44,7 +44,8 @@
                         <td>{{ $user->phone_number }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role }}</td>
-                        <td><img src="{{ $user->image }}" alt="User Image" height="50"></td>
+                        <td><img src="{{ asset('storage/' . $user->image) }}" alt="User Image" height="50">
+                        </td>
                         <td>{{ $user->status }}</td>
                         <td>{{ $user->created_at }}</td>
                         <td>{{ $user->updated_at }}</td>

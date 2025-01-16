@@ -5,47 +5,36 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    // Display a paginate list of users
+    // Display a paginated list of users with optional search
     public function index(Request $request)
     {
-        if ($request->has('search')) {
-            return $this->search($request);
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $query->where('full_name', 'LIKE', '%' . $request->input('search') . '%');
         }
 
-        $users = User::orderBy('full_name', 'asc')->paginate(10);
-        return view('admin.users', compact('users'));
-    }
-
-    // Search user by full name
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
-
-        $users = User::where('full_name', 'LIKE', '%' . $search . '%')
-            ->orderBy('full_name', 'asc')
-            ->paginate(10);
-
-        $users->appends(['search' => $search]);
+        $users = $query->orderBy('full_name', 'asc')->paginate(10);
+        if ($request->filled('search')) {
+            $users->appends(['search' => $request->input('search')]);
+        }
 
         return view('admin.users', compact('users'));
     }
 
-    // Show form create users
+    // Show the form to create a new user
     public function create()
     {
         return view('admin.create-user');
     }
 
-    // Save new user
+    // Save a new user to the database
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
             'user_name' => 'required|string|max:255|unique:users,user_name',
             'dob' => 'required|date',
@@ -58,46 +47,28 @@ class UserController extends Controller
             'status' => 'required|boolean',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         $imagePath = $request->hasFile('image')
             ? $request->file('image')->store('profile_images', 'public')
             : null;
 
-        User::create([
-            'full_name' => $request->full_name,
-            'user_name' => $request->user_name,
-            'dob' => $request->dob,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => Hash::make($request->password),
-            'image' => $imagePath,
-            'status' => $request->status,
-        ]);
+        User::create(array_merge($validatedData, ['image' => $imagePath]));
 
         return redirect()->route('admin.users')->with('success', 'User added successfully!');
     }
 
-    // Show the form for editing users
+    // Show the form to edit a user
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('admin.edit-user', compact('user'));
     }
 
-    // Update users in storage
+    // Update a user in the database
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'full_name' => 'required|string|max:255',
             'user_name' => 'required|string|max:255|unique:users,user_name,' . $id,
             'dob' => 'required|date',
@@ -110,34 +81,16 @@ class UserController extends Controller
             'status' => 'required|boolean',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('profile_images', 'public');
-            $user->image = $imagePath;
+            $validatedData['image'] = $request->file('image')->store('profile_images', 'public');
         }
 
-        $user->update([
-            'full_name' => $request->full_name,
-            'user_name' => $request->user_name,
-            'dob' => $request->dob,
-            'address' => $request->address,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => $request->password ? Hash::make($request->password) : $user->password,
-            'status' => $request->status,
-        ]);
+        $user->update(array_filter($validatedData));
 
         return redirect()->route('admin.users')->with('success', 'User updated successfully!');
     }
 
-    // Soft delete a user by setting status to 0.
+    // Soft delete a user by setting status to 0
     public function destroy($id)
     {
         $user = User::find($id);
@@ -146,8 +99,7 @@ class UserController extends Controller
             return redirect()->route('admin.users')->with('error', 'User not found.');
         }
 
-        $user->status = 0;
-        $user->save();
+        $user->update(['status' => 0]);
 
         return redirect()->route('admin.users')->with('success', 'User has been deactivated successfully.');
     }
