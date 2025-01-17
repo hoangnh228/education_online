@@ -17,10 +17,9 @@ class UserController extends Controller
             $query->where('full_name', 'LIKE', '%' . $request->input('search') . '%');
         }
 
-        $users = $query->orderBy('full_name', 'asc')->paginate(10);
-        if ($request->filled('search')) {
-            $users->appends(['search' => $request->input('search')]);
-        }
+        $users = $query->orderBy('full_name')
+            ->paginate(10)
+            ->appends($request->only('search'));
 
         return view('admin.users', compact('users'));
     }
