@@ -8,6 +8,20 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    // Common validation rules
+    private $rules = [
+        'full_name' => 'required|string|max:255',
+        'user_name' => 'required|string|max:255|unique:users,user_name',
+        'dob' => 'required|date',
+        'address' => 'required|string|max:500',
+        'phone_number' => 'required|string|max:15',
+        'email' => 'required|email|unique:users,email',
+        'role' => 'required|in:admin,teacher,student',
+        'password' => 'required|string|min:8|confirmed',
+        'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        'status' => 'required|boolean',
+    ];
+
     // Display a paginated list of users with optional search
     public function index(Request $request)
     {
@@ -33,18 +47,7 @@ class UserController extends Controller
     // Save a new user to the database
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'user_name' => 'required|string|max:255|unique:users,user_name',
-            'dob' => 'required|date',
-            'address' => 'required|string|max:500',
-            'phone_number' => 'required|string|max:15',
-            'email' => 'required|email|unique:users,email',
-            'role' => 'required|in:admin,teacher,student',
-            'password' => 'required|string|min:8|confirmed',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|boolean',
-        ]);
+        $validatedData = $request->validate($this->rules);
 
         $imagePath = $request->hasFile('image')
             ? $request->file('image')->store('profile_images', 'public')
@@ -67,18 +70,14 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'user_name' => 'required|string|max:255|unique:users,user_name,' . $id,
-            'dob' => 'required|date',
-            'address' => 'required|string|max:500',
-            'phone_number' => 'required|string|max:15',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'role' => 'required|in:admin,teacher,student',
-            'password' => 'nullable|string|min:8|confirmed',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'status' => 'required|boolean',
-        ]);
+        // Adjust validation rules for unique fields
+        $this->rules['user_name'] .= ',' . $id;
+        $this->rules['email'] .= ',' . $id;
+
+        // Change password rule to nullable
+        $this->rules['password'] = 'nullable|string|min:8|confirmed';
+
+        $validatedData = $request->validate($this->rules);
 
         if ($request->hasFile('image')) {
             $validatedData['image'] = $request->file('image')->store('profile_images', 'public');
