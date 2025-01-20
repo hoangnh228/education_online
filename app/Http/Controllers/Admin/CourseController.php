@@ -13,12 +13,12 @@ class CourseController extends Controller
     // Common validation rules
     private $rules = [
         'course_name' => 'required|string|max:255',
-        'teacher_id' => 'required|exists:users,id', // Assumes 'users' table for teachers
+        'teacher_id' => 'required|exists:users,id',
         'price' => 'required|numeric|min:0',
         'description' => 'nullable|string',
         'status' => 'required|boolean',
         'duration' => 'required|integer|min:1',
-        'category_id' => 'required|exists:categories,id', // Assumes 'categories' table
+        'category_id' => 'required|exists:categories,id',
     ];
 
     // Display a paginated list of courses with optional search
@@ -43,10 +43,8 @@ class CourseController extends Controller
     // Show the form to create a new course
     public function create()
     {
-        // Lấy danh sách giáo viên (users có role là 'teacher')
         $teachers = User::where('role', 'teacher')->get();
 
-        // Lấy danh mục khóa học
         $categories = Category::all();
 
         return view('admin.create-course', compact('teachers', 'categories'));
@@ -82,15 +80,7 @@ class CourseController extends Controller
 
         $validatedData = $request->validate($this->rules);
 
-        // $course->update($validatedData);
-
-        $course->update([
-            'course_name' => $validatedData['course_name'],
-            'teacher_id' => $validatedData['teacher_id'],
-            'description' => $validatedData['description'],
-            'duration' => $validatedData['duration'],
-            'category_id' => $validatedData['category_id'],
-        ]);
+        $course->update($validatedData);
 
         return redirect()->route('admin.courses')->with('success', 'Course updated successfully!');
     }

@@ -22,6 +22,7 @@
                     <th>Title</th>
                     <th>Name of Teacher</th>
                     <th>Category</th>
+                    <th>Price</th>
                     <th>Description</th>
                     <th>Duration</th>
                     <th>Created_at</th>
@@ -35,6 +36,7 @@
                     <td>{{ $course->course_name }}</td>
                     <td>{{ optional($course->teacher)->full_name ?? 'N/A' }}</td>
                     <td>{{ optional($course->category)->category_name ?? 'N/A'}}</td>
+                    <td>{{ $course->price}}</td>
                     <td>{{ $course->description }}</td> 
                     <td>{{ $course->duration }} hours</td> 
                     <td>{{ $course->created_at->format('Y-m-d') }}</td> 
@@ -42,8 +44,9 @@
                     <td>
                         <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-sm btn-warning">Update</a> 
                         <form action="{{ route('admin.courses.destroy', $course->id) }}" method="POST" style="display:inline;">
-                             @csrf @method('DELETE')
-                              <button type="submit" class="btn btn-sm btn-danger">Delete</button> 
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to deactivate this course?')">Delete</button>
                         </form>
                     </td>
                 </tr> 
@@ -51,7 +54,7 @@
             </tbody>
         </table>
 
-        {{-- <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <nav>
                 <ul class="pagination">
                     <li class="page-item {{ $courses->onFirstPage() ? 'disabled' : '' }}">
@@ -73,6 +76,6 @@
                     </li>
                 </ul>
             </nav>
-        </div> --}}
+        </div>
     </div>
 @endsection

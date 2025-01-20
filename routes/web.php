@@ -68,13 +68,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.dashboard');
         })->name('dashboard');
 
-        Route::get('/courses', [CourseController::class, 'index'])->name('courses');
+        Route::get('courses', [CourseController::class, 'index'])->name('courses');
 
         Route::get('users', [UserController::class, 'index'])->name('users');
 
-        Route::get('videos', function () {
-            return view('admin.videos');
-        })->name('videos');
+        Route::get('videos', [VideoController::class, 'index'])->name('videos');
 
         Route::get('categories', [CategoryController::class, 'index'])->name('categories');
     });
@@ -99,7 +97,6 @@ Route::get('admin/courses/{id}/edit', [CourseController::class, 'edit'])->name('
 Route::put('admin/courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
 Route::delete('admin/courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 
-Route::get('/admin/videos', [VideoController::class, 'index'])->name('admin.videos');
 Route::get('/admin/videos/create', [VideoController::class, 'create'])->name('admin.videos.create');
 Route::post('/admin/videos', [VideoController::class, 'store'])->name('admin.videos.store');
 Route::get('/admin/videos/{id}/edit', [VideoController::class, 'edit'])->name('admin.videos.edit');

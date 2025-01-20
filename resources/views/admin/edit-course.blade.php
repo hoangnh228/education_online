@@ -27,6 +27,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" name="price" id="price" class="form-control" value="{{ old('price') }}" required>
+            </div>
+
+            <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3" required>{{ old('description', $course->description) }}</textarea>
             </div>
@@ -45,6 +50,14 @@
                             {{ $category->category_name }}
                         </option>
                     @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" class="form-control" required>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
                 </select>
             </div>
 
