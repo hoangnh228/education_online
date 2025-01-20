@@ -16,6 +16,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.videos') }}">Video</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admin.categories') }}">Category</a>
+                </li>
             </ul>
             <form action="{{ route('admin.logout') }}" method="POST" class="d-flex">
                 @csrf
