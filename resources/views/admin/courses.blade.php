@@ -3,16 +3,25 @@
 @section('title', 'Admin - Courses')
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1>Manage Courses</h1>
             <a href="{{ route('admin.courses.create') }}" class="btn btn-primary">Add New Course</a>
         </div>
+
+        <form method="GET" action="{{route('admin.courses')}}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search name course" value="{{request('search')}}">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form> 
+
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Name of Teacher</th>
+                    <th>Category</th>
                     <th>Description</th>
                     <th>Duration</th>
                     <th>Created_at</th>
@@ -21,32 +30,49 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Fake data for demonstration purposes -->
-                <tr>
-                    <td>Course 1</td>
-                    <td>Teacher 1</td>
-                    <td>This is a description of Course 1.</td>
-                    <td>10 hours</td>
-                    <td>2024-01-01</td>
-                    <td>2024-01-02</td>
+                @foreach ($courses as $course)
+                <tr> 
+                    <td>{{ $course->course_name }}</td>
+                    <td>{{ optional($course->teacher)->full_name ?? 'N/A' }}</td>
+                    <td>{{ optional($course->category)->category_name ?? 'N/A'}}</td>
+                    <td>{{ $course->description }}</td> 
+                    <td>{{ $course->duration }} hours</td> 
+                    <td>{{ $course->created_at->format('Y-m-d') }}</td> 
+                    <td>{{ $course->updated_at->format('Y-m-d') }}</td>
                     <td>
-                        <a href="{{ route('admin.courses.edit', 1) }}" class="btn btn-sm btn-warning">Update</a>
-                        <button class="btn btn-sm btn-danger">Delete</button>
+                        <a href="{{ route('admin.courses.edit', $course->id) }}" class="btn btn-sm btn-warning">Update</a> 
+                        <form action="{{ route('admin.courses.destroy', $course->id) }}" method="POST" style="display:inline;">
+                             @csrf @method('DELETE')
+                              <button type="submit" class="btn btn-sm btn-danger">Delete</button> 
+                        </form>
                     </td>
-                </tr>
-                <tr>
-                    <td>Course 2</td>
-                    <td>Teacher 2</td>
-                    <td>This is a description of Course 2.</td>
-                    <td>20 hours</td>
-                    <td>2024-02-01</td>
-                    <td>2024-02-02</td>
-                    <td>
-                        <a href="{{ route('admin.courses.edit', 2) }}" class="btn btn-sm btn-warning">Update</a>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
+                </tr> 
+                @endforeach
             </tbody>
         </table>
+
+        {{-- <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item {{ $courses->onFirstPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $courses->previousPageUrl() }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    @foreach ($courses->getUrlRange(1, $courses->lastPage()) as $page => $url)
+                        <li class="page-item {{ $courses->currentPage() == $page ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endforeach
+
+                    <li class="page-item {{ $courses->hasMorePages() ? '' : 'disabled' }}">
+                        <a class="page-link" href="{{ $courses->nextPageUrl() }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div> --}}
     </div>
 @endsection

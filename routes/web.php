@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VideoController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController as UserAuthController;
@@ -65,102 +68,43 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.dashboard');
         })->name('dashboard');
 
-        Route::get('courses', function () {
-            return view('admin.courses');
-        })->name('courses');
+        Route::get('/courses', [CourseController::class, 'index'])->name('courses');
 
         Route::get('users', [UserController::class, 'index'])->name('users');
 
         Route::get('videos', function () {
             return view('admin.videos');
         })->name('videos');
+
+        Route::get('categories', [CategoryController::class, 'index'])->name('categories');
     });
 });
 
 
+Route::get('admin/create/categories', [CategoryController::class, 'create'])->name('admin.categories.create');
+Route::post('admin/categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+Route::get('admin/categories/{id}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+Route::put('admin/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
+Route::delete('admin/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
-
 Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
 Route::put('/admin/users/{id}', [UserController::class, 'update'])->name('admin.users.update');
-
 Route::delete('/admin/users/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 
-// Route for Admin Create New Course Page
-Route::get('/admin/courses/create', function () {
-    return view('admin.create-course');
-})->name('admin.courses.create');
+Route::get('admin/courses/create', [CourseController::class, 'create'])->name('admin.courses.create');
+Route::post('admin/courses', [CourseController::class, 'store'])->name('admin.courses.store');
+Route::get('admin/courses/{id}/edit', [CourseController::class, 'edit'])->name('admin.courses.edit');
+Route::put('admin/courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
+Route::delete('admin/courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 
-// Route for Admin Save New Course
-Route::post('/admin/courses', function () {
-    // Logic lưu khóa học mới sẽ ở đây... 
-    return redirect()->route('admin.courses');
-})->name('admin.courses.store');
-
-// Route for Admin Edit Course Page 
-Route::get('/admin/courses/{id}/edit', function ($id) {
-    return view('admin.edit-course', [
-        'course' => [
-            'id' => $id,
-            'title' => 'Course 1',
-            'teacher' => 'Teacher 1',
-            'description' => 'This is a description of Course 1.',
-            'duration' => '10 hours',
-            'created_at' => '2024-01-01',
-            'updated_at' => '2024-01-02'
-        ]
-    ]);
-})->name('admin.courses.edit');
-
-// Route for Admin Update Course
-Route::put('/admin/courses/{id}', function ($id) {
-    // The logic to save the new user will go here...
-    return redirect()->route('admin.courses');
-})->name('admin.courses.update');
-
-// Route for Admin Delete Course
-Route::delete('/admin/courses/{id}', function ($id) {
-    // The logic to save the new user will go here... 
-    return redirect()->route('admin.courses');
-})->name('admin.courses.destroy');
-
-// Route for Admin Create New Video Page
-Route::get('/admin/videos/create', function () {
-    return view('admin.create-video');
-})->name('admin.videos.create');
-
-// Route for Admin Save New Video
-Route::post('/admin/videos', function () {
-    // The logic to save the new user will go here...
-    return redirect()->route('admin.videos');
-})->name('admin.videos.store');
-
-// Route for Admin Edit Video Page
-Route::get('/admin/videos/{id}/edit', function ($id) {
-    return view('admin.edit-video', [
-        'video' => [
-            'id' => $id,
-            'course' => 'Course 1',
-            'name' => 'Video 1',
-            'teacher' => 'Teacher 1',
-            'description' => 'This is a description of Video 1.',
-            'duration' => '1 hour',
-            'url' => 'https://example.com/video1.mp4'
-        ]
-    ]);
-})->name('admin.videos.edit');
-
-// Route for Admin Update Video 
-Route::put('/admin/videos/{id}', function ($id) {
-    // The logic to save the new user will go here...
-    return redirect()->route('admin.videos');
-})->name('admin.videos.update');
-
-// Route for Admin Delete Video
-Route::delete('/admin/videos/{id}', function ($id) {
-    // The logic to save the new user will go here...
-    return redirect()->route('admin.videos');
-})->name('admin.videos.destroy');
+Route::get('/admin/videos', [VideoController::class, 'index'])->name('admin.videos');
+Route::get('/admin/videos/create', [VideoController::class, 'create'])->name('admin.videos.create');
+Route::post('/admin/videos', [VideoController::class, 'store'])->name('admin.videos.store');
+Route::get('/admin/videos/{id}/edit', [VideoController::class, 'edit'])->name('admin.videos.edit');
+Route::put('/admin/videos/{id}', [VideoController::class, 'update'])->name('admin.videos.update');
+Route::delete('/admin/videos/{id}', [VideoController::class, 'destroy'])->name('admin.videos.destroy');
 
 // Route for Teacher Dashboard Page
 Route::get('/teacher/dashboard', function () {

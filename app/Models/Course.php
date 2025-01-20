@@ -21,7 +21,7 @@ class Course extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(User::class, 'teacher_id')->where('role', 'teacher');
     }
 
     public function videos()
