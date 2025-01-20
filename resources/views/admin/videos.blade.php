@@ -17,42 +17,37 @@
                     <th>Description</th>
                     <th>Duration</th>
                     <th>URL</th>
-                    <th>Created_at</th>
-                    <th>Updated_at</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Fake data for demonstration purposes -->
-                <tr>
-                    <td>Course 1</td>
-                    <td>Video 1</td>
-                    <td>Teacher 1</td>
-                    <td>This is a description of Video 1.</td>
-                    <td>1 hour</td>
-                    <td><a href="https://example.com/video1.mp4">View</a></td>
-                    <td>2024-01-01</td>
-                    <td>2024-01-02</td>
-                    <td>
-                        <a href="{{ route('admin.videos.edit', 1) }}" class="btn btn-sm btn-warning">Update</a>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Course 2</td>
-                    <td>Video 2</td>
-                    <td>Teacher 2</td>
-                    <td>This is a description of Video 2.</td>
-                    <td>2 hours</td>
-                    <td><a href="https://example.com/video2.mp4">View</a></td>
-                    <td>2024-02-01</td>
-                    <td>2024-02-02</td>
-                    <td>
-                        <a href="{{ route('admin.videos.edit', 2) }}" class="btn btn-sm btn-warning">Update</a>
-                        <button class="btn btn-sm btn-danger">Delete</button>
-                    </td>
-                </tr>
+                @foreach ($videos as $video)
+                    <tr>
+                        <td>{{ $video->course->course_name }}</td>
+                        <td>{{ $video->video_name }}</td>
+                        <td>{{ $video->teacher->full_name }}</td>
+                        <td>{{ $video->description }}</td>
+                        <td>{{ $video->duration }} hours</td>
+                        <td><a href="{{ $video->url }}" target="_blank">View</a></td>
+                        <td>{{ $video->created_at->format('Y-m-d') }}</td>
+                        <td>{{ $video->updated_at->format('Y-m-d') }}</td>
+                        <td>
+                            <a href="{{ route('admin.videos.edit', $video->id) }}" class="btn btn-sm btn-warning">Update</a>
+                            <form action="{{ route('admin.videos.destroy', $video->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this video?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
+
+        <div class="d-flex justify-content-center">
+            {{ $videos->links() }}
+        </div>
     </div>
 @endsection
