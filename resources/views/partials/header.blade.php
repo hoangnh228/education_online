@@ -28,7 +28,8 @@
                     <img src="{{ asset('path/to/avatar.jpg') }}" alt="Avatar" class="rounded-circle border"
                         height="40" width="40">
                 </a>
-                <a href="{{ route('logout') }}" class="btn btn-danger btn-sm">Logout</a>
+                <a href="{{ Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
+ }}" class="btn btn-danger btn-sm">Logout</a>
             @else
                 <a href="{{ route('login') }}" class="btn btn-primary btn-sm me-2">Login</a>
                 <a href="{{ route('register') }}" class="btn btn-secondary btn-sm">Sign Up</a>
