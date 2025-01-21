@@ -20,6 +20,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Full Name</th>
                     <th>User Name</th>
                     <th>DOB</th>
@@ -37,6 +38,7 @@
             <tbody>
                 @foreach($users as $user)
                     <tr>
+                        <td>{{ $user->id}}</td>
                         <td>{{ $user->full_name }}</td>
                         <td>{{ $user->user_name }}</td>
                         <td>{{ $user->dob }}</td>
