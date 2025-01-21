@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class UserController extends Controller
 {
@@ -100,5 +102,44 @@ class UserController extends Controller
         $user->update(['status' => 0]);
 
         return redirect()->route('admin.users')->with('success', 'User has been deactivated successfully.');
+    }
+
+
+
+
+    public function editProfile()
+    {
+        $user = auth()->user();
+        return view('admin.settings', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $validatedData = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'user_name' => 'required|string|max:255|unique:users,user_name,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if ($user->image) {
+                Storage::disk('public')->delete($user->image);
+            }
+            $validatedData['image'] = $request->file('image')->store('profile_images', 'public');
+        }
+
+        if ($request->filled('password')) {
+            $validatedData['password'] = bcrypt($request->password);
+        } else {
+            unset($validatedData['password']);
+        }
+
+        $user->update($validatedData);
+
+        return redirect()->route('admin.settings')->with('success', 'Your profile has been updated successfully.');
     }
 }
