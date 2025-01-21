@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('course_name');
             $table->foreignId('teacher_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->decimal('price', 8, 2);
             $table->text('description');
             $table->integer('duration');

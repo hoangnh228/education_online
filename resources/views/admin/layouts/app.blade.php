@@ -12,9 +12,7 @@
 <body>
     @include('admin.partials.header')
 
-    <main class="container mt-4">
-        @yield('content')
-    </main>
+    @yield('content')
 
     @include('admin.partials.footer')
 

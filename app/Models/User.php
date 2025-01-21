@@ -34,6 +34,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected function setPasswordAttribute($password)
+    {
+        if ($password) {
+            $this->attributes['password'] = bcrypt($password);
+        }
+    }
+
     public function courses()
     {
         return $this->hasMany(Course::class, 'teacher_id');
@@ -71,5 +78,10 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn() => $this->role === 'user' && $this->status === 1,
         );
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return $this->image ? asset('storage/images/' . $this->image) : 'https://via.placeholder.com/50';
     }
 }

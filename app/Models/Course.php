@@ -15,16 +15,22 @@ class Course extends Model
         'price',
         'description',
         'status',
-        'duration'
+        'duration',
+        'category_id',
     ];
 
     public function teacher()
     {
-        return $this->belongsTo(User::class, 'teacher_id');
+        return $this->belongsTo(User::class, 'teacher_id')->where('role', 'teacher');
     }
 
     public function videos()
     {
         return $this->hasMany(Video::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
