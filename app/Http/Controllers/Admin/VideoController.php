@@ -17,7 +17,7 @@ class VideoController extends Controller
         'teacher_id' => 'required|exists:users,id',
         'description' => 'required|string',
         'duration' => 'required|integer|min:1',
-        'url' => 'required|url',
+        'url' => 'required|file|mimes:mp4,avi,mov,wmv|max:51200',
         'status' => 'required|boolean',
     ];
 
@@ -50,7 +50,9 @@ class VideoController extends Controller
     {
         $validatedData = $request->validate($this->rules);
 
-        Video::create($validatedData);
+        $videoPath = $request->file('video_file')->store('videos', 'public');
+
+        Video::create(array_merge($validatedData, ['url' => $videoPath]));
 
         return redirect()->route('admin.videos')->with('success', 'Video added successfully!');
     }
@@ -60,7 +62,7 @@ class VideoController extends Controller
     {
         $video = Video::findOrFail($id);
         $courses = Course::all();
-        $teachers = User::where('role', 'teacher')->where('status', 1)->get(); // Only active teachers
+        $teachers = User::where('role', 'teacher')->where('status', 1)->get();
         return view('admin.edit-video', compact('video', 'courses', 'teachers'));
     }
 

@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VideoController;
+use App\Http\Controllers\Admin\SettingController as ControllersSettingController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\AuthController as UserAuthController;
@@ -75,8 +77,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('videos', [VideoController::class, 'index'])->name('videos');
 
         Route::get('categories', [CategoryController::class, 'index'])->name('categories');
+
+        Route::get('reviews', [ReviewController::class, 'index'])->name('reviews');
+
+        Route::get('settings', [UserController::class, 'editProfile'])->name('settings');
     });
 });
+
+Route::delete('/admin/reviews/{id}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 
 
 Route::get('admin/create/categories', [CategoryController::class, 'create'])->name('admin.categories.create');
@@ -84,6 +92,7 @@ Route::post('admin/categories', [CategoryController::class, 'store'])->name('adm
 Route::get('admin/categories/{id}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
 Route::put('admin/categories/{id}', [CategoryController::class, 'update'])->name('admin.categories.update');
 Route::delete('admin/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
 
 Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
 Route::post('/admin/users', [UserController::class, 'store'])->name('admin.users.store');
